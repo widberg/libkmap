@@ -116,7 +116,7 @@ namespace libkmap
 			WrappedIndexIterator& operator--()
 			{
 				m_index = m_index - 1;
-				return i;
+				return *this;
 			}
 
 			WrappedIndexIterator operator--(int)
@@ -715,14 +715,14 @@ namespace libkmap
 	class System
 	{
 	private:
-		using KMap = KMap<variable_count, solution_type>;
+		using KMapType = KMap<variable_count, solution_type>;
 
-		std::vector<KMap> m_kmaps;
+		std::vector<KMapType> m_kmaps;
 	public:
 		System() {}
-		System(const std::vector<KMap>& kmaps) : m_kmaps(kmaps) {}
+		System(const std::vector<KMapType>& kmaps) : m_kmaps(kmaps) {}
 
-		void add(const KMap& kmap)
+		void add(const KMapType& kmap)
 		{
 			m_kmaps.push_back(kmap);
 		}
@@ -730,11 +730,11 @@ namespace libkmap
 		class Solution
 		{
 		public:
-			Solution(const std::vector<typename KMap::Solution>& solutions) : m_solutions(solutions) {}
+			Solution(const std::vector<typename KMapType::Solution>& solutions) : m_solutions(solutions) {}
 
-			const std::vector<typename KMap::Solution>& solutions() const { return m_solutions; }
+			const std::vector<typename KMapType::Solution>& solutions() const { return m_solutions; }
 		private:
-			std::vector<typename KMap::Solution> m_solutions;
+			std::vector<typename KMapType::Solution> m_solutions;
 		};
 
 		Solution optimal_solution() const
